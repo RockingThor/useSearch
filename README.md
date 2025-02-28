@@ -2,11 +2,11 @@
 
 A powerful and customizable search interface built with React and TypeScript, featuring fuzzy search capabilities, debounced queries, and a Google-inspired UI.
 
-![Doodle Search Screenshot](screenshot.png)
+![Doodle Search Screenshot](https://media.licdn.com/dms/image/v2/D5622AQGLxpvA27uqAg/feedshare-shrink_800/B56ZVNkzvgGoAg-/0/1740763252185?e=1743638400&v=beta&t=kfNpoWw675f_Y3QB9Dq3o-C2G-tK5p9dbxhev8CBoqU)
 
 ## 🚀 Live Demo
 
-Check out the live demo: [Doodle Search Demo](https://your-demo-url-here.com)
+Check out the live demo: [Doodle Search Demo](https://doodle.rohitnandi.com/)
 
 ## ✨ Features
 
@@ -24,10 +24,15 @@ Check out the live demo: [Doodle Search Demo](https://your-demo-url-here.com)
 The core of the application is the `useSearch` custom hook that provides a flexible and efficient way to search through data:
 
 ```typescript
-function useSearch<T>(data: T | T[], query: string, ...filters: FilterFunction<T>[])
+function useSearch<T>(
+  data: T | T[],
+  query: string,
+  ...filters: FilterFunction<T>[]
+);
 ```
 
 This hook accepts:
+
 - A data array or single item
 - A search query string
 - Multiple filter functions that can be composed together
@@ -38,6 +43,7 @@ The search functionality is implemented with several composable utilities:
 
 1. **Field Selection**: Search across specific fields or all fields
 2. **Match Types**:
+
    - `exact`: Exact match (case-insensitive)
    - `startsWith`: String starts with query
    - `endsWith`: String ends with query
@@ -86,18 +92,20 @@ src/
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - npm or yarn
 
 ### Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/RockingThor/doodle-search.git
    cd doodle-search
    ```
 
 2. Install dependencies:
+
    ```bash
    npm install
    # or
@@ -105,6 +113,7 @@ src/
    ```
 
 3. Start the development server:
+
    ```bash
    npm run dev
    # or
@@ -122,7 +131,7 @@ function useSearch<T>(
   data: T | T[],
   query: string,
   ...filters: FilterFunction<T>[]
-): T[]
+): T[];
 ```
 
 ### search Function
@@ -130,9 +139,9 @@ function useSearch<T>(
 ```typescript
 function search(options: {
   fields?: string | string[];
-  matchType: 'exact' | 'startsWith' | 'endsWith' | 'contains' | 'fuzzySearch';
+  matchType: "exact" | "startsWith" | "endsWith" | "contains" | "fuzzySearch";
   threshold?: number;
-}): (data: any[], query: string) => any[]
+}): (data: any[], query: string) => any[];
 ```
 
 ### paginate Function
@@ -141,7 +150,7 @@ function search(options: {
 function paginate(options: {
   page?: number;
   pageSize?: number;
-}): (data: any[], query: string) => any[]
+}): (data: any[], query: string) => any[];
 ```
 
 ## 📝 License
