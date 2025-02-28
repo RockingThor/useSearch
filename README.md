@@ -1,50 +1,166 @@
-# React + TypeScript + Vite
+# Doodle Search
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A powerful and customizable search interface built with React and TypeScript, featuring fuzzy search capabilities, debounced queries, and a Google-inspired UI.
 
-Currently, two official plugins are available:
+![Doodle Search Screenshot](screenshot.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Live Demo
 
-## Expanding the ESLint configuration
+Check out the live demo: [Doodle Search Demo](https://your-demo-url-here.com)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## ✨ Features
 
-- Configure the top-level `parserOptions` property like this:
+- **Flexible Search Engine**: Search across multiple fields with various matching strategies
+- **Fuzzy Search**: Find results even with typos using n-gram based fuzzy matching
+- **Debounced Queries**: Optimized performance with debounced search input
+- **Pagination**: Built-in pagination support for large result sets
+- **Responsive UI**: Clean, Google-inspired interface that works on all devices
+- **TypeScript Support**: Fully typed codebase for better developer experience
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## 🛠️ Technical Implementation
+
+### Core Search Hook
+
+The core of the application is the `useSearch` custom hook that provides a flexible and efficient way to search through data:
+
+```typescript
+function useSearch<T>(data: T | T[], query: string, ...filters: FilterFunction<T>[])
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+This hook accepts:
+- A data array or single item
+- A search query string
+- Multiple filter functions that can be composed together
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+### Search Features
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+The search functionality is implemented with several composable utilities:
+
+1. **Field Selection**: Search across specific fields or all fields
+2. **Match Types**:
+   - `exact`: Exact match (case-insensitive)
+   - `startsWith`: String starts with query
+   - `endsWith`: String ends with query
+   - `contains`: String contains query
+   - `fuzzySearch`: Fuzzy matching using n-gram algorithm
+
+3. **Fuzzy Search Algorithm**:
+   - Uses n-gram based similarity scoring
+   - Adjustable threshold for match sensitivity
+   - Optimized for short queries
+
+### Performance Optimizations
+
+- **Debounced Input**: Prevents excessive searches while typing
+- **Memoized Results**: Uses React's `useMemo` to cache results
+- **Adaptive Matching**: Switches to simpler matching for very short queries
+
+## 🧰 Tech Stack
+
+- **React 19**: Latest React version with improved performance
+- **TypeScript**: For type safety and better developer experience
+- **Vite**: For fast development and optimized builds
+- **CSS Modules**: For component-scoped styling
+
+## 📦 Project Structure
+
 ```
+src/
+├── hooks/
+│   ├── useDebounce.ts     # Debounced input hook
+│   └── useSearch.ts       # Main search hook
+├── utils/
+│   ├── convertToString.ts # String conversion utility
+│   ├── getAllKeys.ts      # Object key extraction
+│   ├── getFieldValue.ts   # Field value accessor
+│   ├── nGramFuzzySearch.ts # Fuzzy search algorithm
+│   ├── paginate.ts        # Pagination utility
+│   └── search.ts          # Main search function
+├── App.tsx                # Main application component
+├── App.css                # Application styles
+├── index.css              # Global styles
+└── main.tsx               # Application entry point
+```
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18+ 
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/RockingThor/doodle-search.git
+   cd doodle-search
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn
+   ```
+
+3. Start the development server:
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+4. Open [http://localhost:5173](http://localhost:5173) in your browser
+
+## 🔧 API Reference
+
+### useSearch Hook
+
+```typescript
+function useSearch<T>(
+  data: T | T[],
+  query: string,
+  ...filters: FilterFunction<T>[]
+): T[]
+```
+
+### search Function
+
+```typescript
+function search(options: {
+  fields?: string | string[];
+  matchType: 'exact' | 'startsWith' | 'endsWith' | 'contains' | 'fuzzySearch';
+  threshold?: number;
+}): (data: any[], query: string) => any[]
+```
+
+### paginate Function
+
+```typescript
+function paginate(options: {
+  page?: number;
+  pageSize?: number;
+}): (data: any[], query: string) => any[]
+```
+
+## 📝 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 👤 Author
+
+**Rohit Nandi**
+
+- Website: [rohitnandi.com](https://me.rohitnandi.com/)
+- GitHub: [@RockingThor](https://github.com/RockingThor)
+
+## 🤝 Contributing
+
+Contributions, issues and feature requests are welcome!
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/amazing-feature`)
+3. Commit your Changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the Branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
